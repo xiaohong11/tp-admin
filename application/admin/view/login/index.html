@@ -55,8 +55,10 @@
 	$(document).ready(function () {
 		if($("#mobile") == ''){
 			$("#mobile").focus();
-		}else{
+		}else if($("#password") == ''){
 			$("#password").focus();
+		}else{
+			$("button").focus();
 		}
 		var data = {};
 		var msgerr = $(".msgerr")
