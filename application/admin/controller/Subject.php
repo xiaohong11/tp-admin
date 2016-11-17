@@ -36,6 +36,9 @@ class Subject extends AdminBase
 	}
 
 
+	/**
+	 * 添加
+	 */
 	public function add()
 	{
 		if (request()->isPost()) {
@@ -45,7 +48,6 @@ class Subject extends AdminBase
 			if ($res == 1) {
 				return info("添加成功!",1);
 			}else{
-
 				return info("添加失败!",0);
 			}
 		}		
@@ -53,6 +55,9 @@ class Subject extends AdminBase
 	}
 
 
+	/**
+	 * 编辑
+	 */
 	public function edit($id = 0)
 	{
 		if(intval($id) < 0){
@@ -61,16 +66,13 @@ class Subject extends AdminBase
 		}
 		if (request()->isPost()) {
 			$data = request()->param();
-
 			$res = $this->comment->update($data);
 			if ($res == 1) {
 				return info("编辑成功!",1);
 			}else{
-
 				return info("编辑失败!",0);
 			}
 		}		
-
 		$data = $this->comment->where('id',$id)->find();
 		$this->assign('data',$data);
 		return $this->fetch();
