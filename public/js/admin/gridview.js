@@ -224,7 +224,7 @@ $(function() {
             $this.$table.bootstrapTable('refresh');
             return false;
         });
-
+        
         this.$toolbar.find('>.btn-group>button[data-name]').on('click', function() {
             // 要执行的事件名称
             var $btn = $(this);
