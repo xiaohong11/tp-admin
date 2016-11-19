@@ -1,23 +1,19 @@
 <?php
 namespace app\admin\controller;
 
-use app\common\controller\AdminBase;
-use think\Session;
+use think\Controller;
 
 /**
 * @author aierui github  https://github.com/Aierui
 * @version 1.0 
 */
-class Index extends AdminBase
+class Index extends Controller
 {
     
-    function __construct()
-    {
-        parent::__construct();
-    }
 
     public function index()
     {
+    	echo "string";
         return view('index');
     }
 

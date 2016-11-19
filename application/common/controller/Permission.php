@@ -77,7 +77,6 @@ class Permission
 		$role_id = Db::table(self::$table_role_user)
 		 			->where('user_id',$authUser['id'])
 		 			->column('role_id');
-                    // var_dump($role_id);die;
 		foreach ($role_id as $id) {
 			$node = Db::table(self::$table_role)
 					->where('id',$id)
