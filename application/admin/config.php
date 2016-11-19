@@ -29,6 +29,7 @@ return [
         'expire' => 0,
     ],
 
+    // 'app_debug'              => true,
 
     'session'                => [
         'id'             => '',

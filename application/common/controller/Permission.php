@@ -200,7 +200,7 @@ class Permission
         $controller = strtolower($controller);
     	$action = strtolower($action);
     	$data = [];
-        if($controller != 'index'){
+        if($controller != 'index' && $controller != 'dash'){
             $map['menu.controller'] = ['=',$controller];
             $data = Db::table(self::$table_menu)
                         ->alias('menu')
@@ -214,7 +214,7 @@ class Permission
 
 	    	$data['ptitle'] = $ptitle['title'];			
 	    	$data['picon'] = $ptitle['icon'];			
-            if (!empty($action) && $action != 'index') {
+            if (!empty($action) && ( $action != 'index' || $controller != 'dash' )) {
                 $map_node['pid'] = ['=',$data['id']];
                 $map_node['node.name'] = ['=',$action];
                 $node = Db::table(self::$table_node)
