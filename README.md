@@ -100,7 +100,7 @@ TP-Web即基于ThinkPHP5的web后台管理系统
 > 在此非常感谢各框架、插件、平台的支持
 
 
-# 交流
+## 交流
 - 大家可以在github上Issues
 - 在[这个后台](http://web.shijinrong.cn/admin/)我增加了一个用户建议、也可以留言
 - 欢迎提出bug、便于我接下来修改
