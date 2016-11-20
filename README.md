@@ -8,122 +8,99 @@
 **[基于TP5](http://thinkphp.cn/),在此感谢**
 
 
-- 要封装常用功能 [main.js源代码](https://github.com/Aierui/web/blob/master/public/js/admin/main.js)、如初始化selector、空对象判断、重定向、modal、全局的ajax请求、js中加载js/css文件、数据验证、重写了alert弹出层、增加 弹出确认提示框。
-- Gridview.js [源代码](https://github.com/Aierui/web/blob/master/public/js/admin/gridview.js)————另一个独特地方--再次简化了bootstrap-table.js 让表格显示、数据提交变得更加简洁、组件化去功能开发。
--  在common模块写了 AdminBase、Permission两个重要的基础类
+
+# TP-Web(简称Web)
+
+TP-Web即基于ThinkPHP5的web后台管理系统
+
+# 官方文档
+地址：[http://doc.web.shijinrong.cn/](http://doc.web.shijinrong.cn/)
+
+# 在线体验
+地址：[http://web.shijinrong.cn/admin/login](http://web.shijinrong.cn/admin/login) 
+账户：13330613321
+密码：123
 
 
-# 体验
-- [地址](http://web.shijinrong.cn/admin/) http://web.shijinrong.cn/admin/login
-- 账号：13330613321 （这不是我的手机号，也请不要骚扰别人）
-- 密码：123
+# 线上仓库
+
+在线地址：[https://github.com/Aierui/web](https://github.com/Aierui/web)
+
+## 源代码下载
+
+**git克隆**：``git clone https://github.com/Aierui/web`` 
+**直接下载**：[https://github.com/Aierui/web/archive/master.zip](https://github.com/Aierui/web/archive/master.zip) 
+
+# 本地部署
+
+**运行环境要求**
+
+> * PHP >= 5.4.0
+> * PDO PHP Extension
+> * MBstring PHP Extension
+> * CURL PHP Extension
 
 
-# 功能
 
-### 账号管理
-**添加、编辑、删除、搜索等** 这里节点都可以在菜单管理中进行添加修改等
-
-
-### 菜单管理
-**添加、编辑、删除等**，对每一个菜单同时能够对其节点增删改操作
+建议配置虚拟域名（若不清楚，请自行解决之），方便接下来开展你的开发工作。
+>[info] 按照TP5默认，入口文件位于`public/index.php`
+> 入口文件位置的设计是为了让应用部署更安全，public目录为web可访问目录，其他的文件都可以放到非WEB访问目录下面。
 
 
-### 角色管理
-**所有菜单功能（含节点）均可自定义授权**
+除非
+> 你是一名高级PHPer，也可以为每一个模块自定义入口文件
 
 
-# 开发
-###以用户留言为例
+**部署完成后**
 
-#### 后台逻辑代码
-```
-	/**
-	 * 添加
-	 */
-	public function add()
-	{
-		if (request()->isPost()) {
-			$data = request()->param();
-			$data['create_time'] = time();
-			$res = $this->comment->insert($data);
-			if ($res == 1) {
-				return info("添加成功!",1);
-			}else{
-				return info("添加失败!",0);
-			}
-		}		
-		return $this->fetch('edit');
-	}
+~~~
+http://your-domain/ 例如虚拟域名配置为www.web.com 则http://www.web.com
+~~~
 
 
-	/**
-	 * 编辑
-	 */
-	public function edit($id = 0)
-	{
-		if(intval($id) < 0){
-			return info("数据ID异常",0);
-			exit;
-		}
-		if (request()->isPost()) {
-			$data = request()->param();
-			$res = $this->comment->update($data);
-			if ($res == 1) {
-				return info("编辑成功!",1);
-			}else{
-				return info("编辑失败!",0);
-			}
-		}		
-		$data = $this->comment->where('id',$id)->find();
-		$this->assign('data',$data);
-		return $this->fetch();
-	}
+**详细参考**[ThinkPHP5官方手册中的部署部分](http://www.kancloud.cn/manual/thinkphp5/129745)官方手册更加完善且很清楚
 
-```
+# 开发规范
+tp-web-admin框架严格遵循ThinkPHP5开发规范，详情请参照[官方手册](http://www.kancloud.cn/manual/thinkphp5/118007)
 
-#### 模板页面
+# TP－Web——拿来即用高性能后台管理系统
 
-```
-{__NOLAYOUT__}
-<form data-method="post" data-action="/{$Request.module}/{$Request.controller}/{$Request.action}" data-submit="ajax" data-validate="true" class="form-horizontal">
-    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title">{$data['id']?'修改':'添加'}留言</h3>
-                </div>
-                <input type="hidden" name="id" value="{$data.id ?? ''}">
-                <div class="modal-body">
-                    <div class="modal-body-content">
-                        <div class="form-group must">
-                            <label class="col-sm-3 control-label">称呼</label>
-                            <div class="col-sm-7">
-                                <input type="text" class="form-control" name="name" maxlength="8" placeholder="至多8个字符" required value="{$data.name ?? ''}">
-                            </div>
-                        </div>
-                        <div class="form-group must">
-                            <label class="col-sm-3 control-label">内容</label>
-                            <div class="col-sm-7">
-                                <textarea class="form-control required" name="content" maxlength="150" rows="3">{$data['content'] ?? ''}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-```
+TP-Web即基于ThinkPHP5的web后台管理系统
 
-> 小伙伴们，有没有觉得很简洁、优美呢？没有任何脚本
+## 主要特性：
 
-> 是因为我在系统都做了基础封装，想了解更多，欢迎骚扰。
+- **菜单管理**：自定义添加菜单，自动生成菜单节点
+- **角色管理**：自定义后台各菜单各节点权限分配
+- **账号管理**：平台后台账号统一管理，自定义分配角色
+- **日志记录**：自动记录网站操作写入数据库
+- **数据验证**：表单数据自动验证
+- **基础封装**：后台基础类，如权限验证、实时登录等
+
+- **系统集成js**:初始化selector、空对象判断、重定向、modal、封装全局ajax请求、下载js、下载样式、表单验证、jquery扩展ajax提交表单、弹出提示信息alertMsg()、弹出确认提示框alertConfirm()等
+- **GridViewjs**:数据表格显示优化、表格数据初始化、关键词搜索、支持4种事件类型（1. 自定义 2.视图  3.默认 4.脚本）、视图事件支持3种新页面打开方式（1.**模态框**2.本页打开 3.在新窗口打开）
+- **小特性，自己挖掘哦~~ 更多新特性、正在完善中……**
+- **也期待有想法的你加入**
+
+## 支持TP-web的用户请到 [GitHub](https://github.com/Aierui/web) 给我一个star ^_^
+
+### 为什么要选择TP5
+因为TP5在框架中就有如下高级特性
+* * * * *
+
+- **规范**：遵循PSR-2、PSR-4规范，Composer及单元测试支持；
+- **严谨**：异常严谨的错误检测和安全机制，详细的日志信息，为你的开发保驾护航；
+- **灵活**：减少核心依赖，扩展更灵活、方便，支持命令行指令扩展；
+- **API友好**：出色的性能和REST支持、远程调试，更好的支持API开发；
+- **高效**：惰性加载，及路由、配置和自动加载的缓存机制；
+- **ORM**：重构的数据库、模型及关联，MongoDb支持；
+
+### 合理使用轮子
+排名部分先后顺序
+- 框架：ThinkPHP5.0.2、jQuery3.1.0
+- 插件：bootstrap3.3.0、bootstrap-table1.11.0、validate.js0.10.0、jstree3.1.1、font-awesome4.6.3
+- 平台：Github
+……
+>[success] 在此非常感谢各框架、插件、平台的支持
 
 
 # 交流
@@ -132,27 +109,3 @@
 - 欢迎提出bug、便于我接下来修改
 - 若你还有足够的精力和时间，欢迎你也加入进来
 - **暂时不对外提供数据库、需要请微信（imland）我**
-
-
-
-
-=======================
-
-- doing... 
-- fighting...
-
-### Schedule track
-
-- update admin login/auth 16.9.27
-- update admin menu/auth 16.10.17
-- update admin node/users 16.10.21
-- update admin toolbar/bootstrap-table  16.10.22
-- update admin main.js/gridview.js  16.10.23
-- 改动main.js /gridview.js /add 16.10.24/25
-- …………调试调试修改
-- 预习考试去了  10.26-10.30
-- 继续完善mmain.js / gridview.js   - 11.4 
-- 今天码代码4小时 效果不错，但是昨日遗留问题没有解决 16.11.10
-- 今晚凑单的可以一起呀！！！！！！！！！！！！！！！！！
-- 完成角色授权 2016.11.12
-- 完成菜单等所有的bug 2016.11.13/14
