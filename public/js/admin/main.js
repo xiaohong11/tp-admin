@@ -48,7 +48,6 @@ window.win = {
         this.init('body');
     },
     init: function(selector) {
-        // console.log(selector)
         selector = $(selector);
         this.validate(selector.find('form[data-validate="true"]'));
         var $form = selector.find('form[data-submit="ajax"]');
@@ -141,15 +140,12 @@ window.win = {
                         this.$msg_box = alertMsg(this.waitting, -1);
                     }
                 }
-
                 this.custom = {};
                 this.custom.success = this.success;
                 this.custom.error = this.error;
                 this.custom.complete = this.complete;
 
                 this.success = function(data, textStatus, jqXHR) {
-                    // console.log(data);
-                    // return ;
                     var response_type = jqXHR.getResponseHeader("Content-Type");
                     if (this.dataType != 'json' && response_type != 'application/json; charset=utf-8') {
                         if (typeof this.custom.success == 'function') {
@@ -158,7 +154,6 @@ window.win = {
                         return;
                     }
 
-                    // 我请求的不是json数据，而返回的却是json数据(可能服务端出错)
                     if (this.dataType != 'json' && response_type == 'application/json; charset=utf-8') {
                         data = $.parseJSON(data);
                     }

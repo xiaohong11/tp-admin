@@ -32,11 +32,7 @@ class Test extends AdminBase
 
 	public function tmp()
 	{	
-		if (request()->isPost()) {
-			$data = request()->param();
-			// var_dump($data);
-			return $this->error('error') ;
-		}
+		abort(404,'页面不存在');
 	}
 }
 

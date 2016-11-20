@@ -372,21 +372,13 @@ $(function() {
         });
     };
 
-    /**
-     * 重置表单
-     */
     GridView.prototype.resetForm = function() {
         if (this.$form.length == 0) {
             return;
         }
-
         this.$form[0].reset();
-
     };
 
-    /**
-     * 编辑表单
-     */
     GridView.prototype.editRow = function(row) {
         this.currentRow = row;
         if (this.$form.length == 0) {
@@ -426,9 +418,6 @@ $(function() {
         }
     };
 
-    /**
-     * 重置
-     */
     GridView.prototype.resetView = function(height) {
 
         if (this.$table.data('height') != undefined) {
@@ -441,21 +430,11 @@ $(function() {
         }
     };
 
-    /**
-     * 刷新
-     */
     GridView.prototype.refresh = function() {
 
         this.$table.bootstrapTable('refresh');
     };
 
-
-    /**
-     * 对view类型modal打开类型 会被调用 将view加载成模态框视图
-     * @param  string url  加载链接
-     * @param  object data 页面数据 1.添加（add）data为空object 2.修改（edit）data为 id 值
-     * @return {[type]}      
-     */
     GridView.prototype.loadModal = function(url, data) {
         var $this = this;
         $.ajax({
@@ -493,13 +472,6 @@ $(function() {
         });
     };
 
-
-
-    /**
-     * 获取表单的值
-     * @param  {[type]} selector [description]
-     * @return {[type]}          [description]
-     */
     GridView.prototype.getFormValue = function(selector) {
         var $form = selector == undefined ? this.$form : $(selector);
         if ($form.length == 0) {
@@ -541,9 +513,7 @@ $(function() {
         return this.currentRow;
     }
 
-
     new GridView('table[data-toggle="gridview"]');
-
 
     $.fn.gridView = function(option, params) {
         var $gridview = this.data('gridview');
