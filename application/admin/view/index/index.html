@@ -17,17 +17,65 @@
 </head>
 <style>
 body{
-	background-color: #fff;
+	background-color: purple;
+	/*opacity: .85;*/
 }
+
+#main{
+	width: 800px;
+	margin: 0 auto;
+	z-index: 1;
+}
+ 
+
+
+.background-image{
+	background-image: url('/images/admin/product.png');
+	z-index: 5;
+	position: absolute;
+	height: 60%;
+	width: 60%;
+	display: block;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+
+	-webkit-background-size: cover;
+	background-size: cover;
+	/*background-position: center center;*/
+
+}
+
+.btns{
+	margin-top: 15%;
+	margin: 15% auto 0;
+	width: 100%;
+	text-align: center;
+	/*opacity: 0;*/
+}
+
+.btns a{
+	color: #f7f7f8;
+
+}
+a:hover{
+	text-decoration: none;
+}
+
+.background-image:hover{
 	
+
+}
+
 </style>
 <body>
 
-<div id="wrapper">
 	<div id="main">
-		
+		<div class="btns">
+		<a href="/admin/login" class="btn btn-primary btn-lg" role="button">Login In</a>
+		</div>
+		<div class="background-image"></div>
 	</div>
-</div>
 
 </body>
 </html>
