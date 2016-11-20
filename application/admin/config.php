@@ -2,13 +2,24 @@
 	
 return [
     //网站名称
-	'WEBSITE_NAME'          		    =>  'Aierui后台',
+	'WEBSITE_NAME'          		    =>  'Red-Team',
     // 默认输出类型
     'default_return_type'               => 'html',
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'             => APP_PATH  . 'admin/view/' .DS. 'dispatch_jump.tpl',
     'dispatch_error_tmpl'               => APP_PATH  . 'admin/view/' .DS. 'dispatch_jump.tpl',
-	//模板布局
+
+    //异常页面模板文件
+    'exception_tmpl'                    => APP_PATH . 'admin/view' .DS. 'think_exception.tpl',
+
+    'http_exception_template'    =>  [
+                                            // 定义404错误的重定向页面地址
+                                            404 =>  APP_PATH. 'admin/view' .DS. '404.html',
+                                            // 还可以定义其它的HTTP status
+                                            401 =>  APP_PATH. 'admin/view' .DS. '401.html',
+                                        ],
+	
+    //模板布局
 	'template'                          =>  [
 	    'layout_on'    =>  true,
 	    'layout_name'  =>  'layout',
@@ -48,10 +59,6 @@ return [
     //伪静态
     'url_html_suffix' => false,
 
-    //调试
-    // 'app_debug' => true,
-    // 
-    // 'app_trace'              => true,
 
     'USER_AUTH_KEY'                     =>  'authId',   // 用户认证SESSION标记
     'ADMIN_AUTH_KEY'                    =>  'administrator',

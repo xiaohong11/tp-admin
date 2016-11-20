@@ -14,7 +14,7 @@
 
 
 # 体验
-- [地址](http://web.shijinrong.cn/admin/) http://web.shijinrong.cn/admin/
+- [地址](http://web.shijinrong.cn/admin/) http://web.shijinrong.cn/admin/login
 - 账号：13330613321 （这不是我的手机号，也请不要骚扰别人）
 - 密码：123
 
@@ -23,17 +23,14 @@
 
 ### 账号管理
 **添加、编辑、删除、搜索等** 这里节点都可以在菜单管理中进行添加修改等
-![效果](http://7xpqdb.com1.z0.glb.clouddn.com/filehelper_1478765591922_47.png)
-![效果](http://7xpqdb.com1.z0.glb.clouddn.com/filehelper_1478765591922_47.png)
-![效果](http://7xpqdb.com1.z0.glb.clouddn.com/filehelper_1478765592059_7.png)
+
 
 ### 菜单管理
 **添加、编辑、删除等**，对每一个菜单同时能够对其节点增删改操作
-![效果](http://7xpqdb.com1.z0.glb.clouddn.com/filehelper_1478765927500_24.png)
+
 
 ### 角色管理
 **所有菜单功能（含节点）均可自定义授权**
-![效果](http://7xpqdb.com1.z0.glb.clouddn.com/2.png)
 
 
 # 开发
