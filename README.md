@@ -4,34 +4,29 @@
 
 ======================
 
-# 万能后台——自定义扩展功能
-**[基于TP5](http://thinkphp.cn/),在此感谢**
-
-
-
 # TP-Web(简称Web)
 
 TP-Web即基于ThinkPHP5的web后台管理系统
 
-# 官方文档
+## 官方文档
 地址：[http://doc.web.shijinrong.cn/](http://doc.web.shijinrong.cn/)
 
-# 在线体验
+## 在线体验
 地址：[http://web.shijinrong.cn/admin/login](http://web.shijinrong.cn/admin/login) 
 账户：13330613321
 密码：123
 
 
-# 线上仓库
+## 线上仓库
 
 在线地址：[https://github.com/Aierui/web](https://github.com/Aierui/web)
 
-## 源代码下载
+### 源代码下载
 
 **git克隆**：``git clone https://github.com/Aierui/web`` 
 **直接下载**：[https://github.com/Aierui/web/archive/master.zip](https://github.com/Aierui/web/archive/master.zip) 
 
-# 本地部署
+## 本地部署
 
 **运行环境要求**
 
@@ -43,7 +38,7 @@ TP-Web即基于ThinkPHP5的web后台管理系统
 
 
 建议配置虚拟域名（若不清楚，请自行解决之），方便接下来开展你的开发工作。
->[info] 按照TP5默认，入口文件位于`public/index.php`
+> 按照TP5默认，入口文件位于`public/index.php`
 > 入口文件位置的设计是为了让应用部署更安全，public目录为web可访问目录，其他的文件都可以放到非WEB访问目录下面。
 
 
@@ -60,14 +55,14 @@ http://your-domain/ 例如虚拟域名配置为www.web.com 则http://www.web.com
 
 **详细参考**[ThinkPHP5官方手册中的部署部分](http://www.kancloud.cn/manual/thinkphp5/129745)官方手册更加完善且很清楚
 
-# 开发规范
+## 开发规范
 tp-web-admin框架严格遵循ThinkPHP5开发规范，详情请参照[官方手册](http://www.kancloud.cn/manual/thinkphp5/118007)
 
-# TP－Web——拿来即用高性能后台管理系统
+# TP-Web——拿来即用高性能后台管理系统
 
 TP-Web即基于ThinkPHP5的web后台管理系统
 
-## 主要特性：
+### 主要特性：
 
 - **菜单管理**：自定义添加菜单，自动生成菜单节点
 - **角色管理**：自定义后台各菜单各节点权限分配
@@ -76,12 +71,12 @@ TP-Web即基于ThinkPHP5的web后台管理系统
 - **数据验证**：表单数据自动验证
 - **基础封装**：后台基础类，如权限验证、实时登录等
 
-- **系统集成js**:初始化selector、空对象判断、重定向、modal、封装全局ajax请求、下载js、下载样式、表单验证、jquery扩展ajax提交表单、弹出提示信息alertMsg()、弹出确认提示框alertConfirm()等
-- **GridViewjs**:数据表格显示优化、表格数据初始化、关键词搜索、支持4种事件类型（1. 自定义 2.视图  3.默认 4.脚本）、视图事件支持3种新页面打开方式（1.**模态框**2.本页打开 3.在新窗口打开）
+- **[系统集成js](https://github.com/Aierui/web/blob/master/public/js/admin/main.js)**:初始化selector、空对象判断、重定向、modal、封装全局ajax请求、下载js、下载样式、表单验证、jquery扩展ajax提交表单、弹出提示信息alertMsg()、弹出确认提示框alertConfirm()等
+- **[GridViewjs](https://github.com/Aierui/web/blob/master/public/js/admin/gridview.js)**:数据表格显示优化、表格数据初始化、关键词搜索、支持4种事件类型（1. 自定义 2.视图  3.默认 4.脚本）、视图事件支持3种新页面打开方式（1.**模态框**2.本页打开 3.在新窗口打开）
 - **小特性，自己挖掘哦~~ 更多新特性、正在完善中……**
 - **也期待有想法的你加入**
 
-## 支持TP-web的用户请到 [GitHub](https://github.com/Aierui/web) 给我一个star ^_^
+### 支持TP-web的用户请到 [GitHub](https://github.com/Aierui/web) 给我一个star ^_^
 
 ### 为什么要选择TP5
 因为TP5在框架中就有如下高级特性
@@ -100,7 +95,7 @@ TP-Web即基于ThinkPHP5的web后台管理系统
 - 插件：bootstrap3.3.0、bootstrap-table1.11.0、validate.js0.10.0、jstree3.1.1、font-awesome4.6.3
 - 平台：Github
 ……
->[success] 在此非常感谢各框架、插件、平台的支持
+> 在此非常感谢各框架、插件、平台的支持
 
 
 # 交流
