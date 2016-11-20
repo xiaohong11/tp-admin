@@ -14,7 +14,7 @@
                         <div class="form-group must">
                             <label class="col-sm-3 control-label">父级菜单</label>
                             <div class="col-sm-7">
-                                <select name="pid" class="form-control" required>
+                                <select name="pid" class="form-control" required id="pid">
                                     <option value="0">一级菜单</option>
                                     {foreach name="list" item="r"}
                                         <option value="{$r.id}" {$r.id == $data['pid'] ? ' selected ' : ''}>{$r.split}{$r.title}</option>
@@ -31,12 +31,12 @@
                         </div>
  
 
-                        <div class="form-group must">
+                        <div class="form-group must" id="module">
                             <label class="col-sm-3 control-label">模块</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="module"  placeholder="module" required value="{$data.module ?? ''}" style="width: 80px;display: inline-block;">
+                                <input type="text" class="form-control" name="module"  placeholder="module" required value="{$data.module ?? 'admin'}" style="width: 80px;display: inline-block;">
                                 <input type="text" class="form-control" name="controller"  placeholder="controller"   value="{$data.controller ?? ''}" style="width: 90px;display: inline-block;">
-                                <input type="text" class="form-control" name="action"  placeholder="action"  value="{$data.action ?? ''}" style="width: 90px;display: inline-block;">
+                                <input type="text" class="form-control" name="action"  placeholder="action"  value="{$data.action ?? 'index'}" style="width: 90px;display: inline-block;">
                             </div>
                         </div>
 
@@ -101,6 +101,18 @@ $('#icon_list li').on('click', function(){
     $('#icon').val(class_name);
     $('#icon_list').modal('hide');
 });
+
+$("#pid").change(function(){
+    var pid = $("#pid option:selected").val();
+    if (pid == 0) {
+        $("#module").find('.col-sm-7').find('input:eq(0)').removeAttr('required');
+        $("#module").hide();
+    }else{
+        $("#module").find('.col-sm-7').find('input:eq(0)').attr('required','required');
+        $("#module").show();
+    }
+}).trigger('change')
+
 </script>
 
 <style type="text/css">
