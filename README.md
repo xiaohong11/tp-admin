@@ -72,7 +72,9 @@ TP-Web即基于ThinkPHP5的web后台管理系统
 - **基础封装**：后台基础类，如权限验证、实时登录等
 
 - **[系统集成js](https://github.com/Aierui/web/blob/master/public/js/admin/main.js)**:初始化selector、空对象判断、重定向、modal、封装全局ajax请求、下载js、下载样式、表单验证、jquery扩展ajax提交表单、弹出提示信息alertMsg()、弹出确认提示框alertConfirm()等
+
 - **[GridViewjs](https://github.com/Aierui/web/blob/master/public/js/admin/gridview.js)**:数据表格显示优化、表格数据初始化、关键词搜索、支持4种事件类型（1. 自定义 2.视图  3.默认 4.脚本）、视图事件支持3种新页面打开方式（1.**模态框**2.本页打开 3.在新窗口打开）
+
 - **小特性，自己挖掘哦~~ 更多新特性、正在完善中……**
 - **也期待有想法的你加入**
 
@@ -94,7 +96,7 @@ TP-Web即基于ThinkPHP5的web后台管理系统
 - 框架：ThinkPHP5.0.2、jQuery3.1.0
 - 插件：bootstrap3.3.0、bootstrap-table1.11.0、validate.js0.10.0、jstree3.1.1、font-awesome4.6.3
 - 平台：Github
-……
+- ……
 > 在此非常感谢各框架、插件、平台的支持
 
 
