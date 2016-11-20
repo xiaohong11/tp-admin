@@ -100,6 +100,7 @@ TP-Web即基于ThinkPHP5的web后台管理系统
 - 插件：bootstrap3.3.0、bootstrap-table1.11.0、validate.js0.10.0、jstree3.1.1、font-awesome4.6.3
 - 平台：Github
 - ……
+
 > 在此非常感谢各框架、插件、平台的支持
 
 
