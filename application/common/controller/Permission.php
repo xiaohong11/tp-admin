@@ -214,7 +214,7 @@ class Permission
 
 	    	$data['ptitle'] = $ptitle['title'];			
 	    	$data['picon'] = $ptitle['icon'];			
-            if (!empty($action) && ( $action != 'index' || $controller != 'dash' )) {
+            if (!empty($action) &&  $action != 'index') {
                 $map_node['pid'] = ['=',$data['id']];
                 $map_node['node.name'] = ['=',$action];
                 $node = Db::table(self::$table_node)
