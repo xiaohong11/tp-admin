@@ -6,7 +6,6 @@ use think\Loader;
 use think\Model;
 use think\Session;
 use think\Config;
-use app\common\tools\Strings;
 
 class User extends Model
 {
@@ -34,7 +33,7 @@ class User extends Model
 				$this->error = '该账号未授权，请联系超级管理。';
 			}
 			//登录失败要记录在日志里
-	    	Loader::model('LogRecord')->record("登录失败, [username_mobile: {$data['mobile']}],[ status: {$this->error} ],[password:" . Strings::replaceToStar($password) . ']');
+	    	Loader::model('LogRecord')->record("登录失败, [username_mobile: {$data['mobile']}],[ status: {$this->error} ],[password: " .replaceToStar($password) . ']');
 	    	return false;
 		}
 

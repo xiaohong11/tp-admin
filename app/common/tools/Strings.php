@@ -57,13 +57,5 @@ class Strings
             unlink($filename);
         }
     }
-    /**
-     * [password description]
-     * @param  [type] $string [description]
-     * @return [type] [description]
-     */
-    public static function password($string)
-    {
-        return md5($string);
-    }
+ 
 }

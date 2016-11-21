@@ -12,7 +12,7 @@ use \think\Session;
 class logRecord extends Model
 {
     protected $updateTime = false;
-    protected $insert     = ['ip', 'user_id'];
+    protected $insert     = ['ip', 'user_id','browser','os'];
     protected $type       = [
         'create_time' => 'int',
     ];
@@ -21,6 +21,16 @@ class logRecord extends Model
     protected function setIpAttr()
     {
         return \app\common\tools\Visitor::getIP();
+    }
+
+    protected function setBrowserAttr()
+    {
+        return \app\common\tools\Visitor::getBrowser().'-'.\app\common\tools\Visitor::getBrowserVer();
+    }
+
+    protected function setOsAttr()
+    {
+        return \app\common\tools\Visitor::getOs();
     }
 
  

@@ -49,3 +49,9 @@ function md6($str)
 	$key = 'account_nobody';
 	return md5(md5($str).$key);
 }
+
+function replaceToStar($str)
+{
+    $len = strlen($str) / 2;
+    return substr_replace($str, str_repeat('*', $len), floor(($len) / 2), $len);
+}
