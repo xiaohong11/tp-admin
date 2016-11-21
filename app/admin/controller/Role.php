@@ -42,10 +42,10 @@ class Role extends AdminBase
             $data = request()->param();
             $res = $this->role->insert($data);
             if($res == 1){
-                // return $this->success('添加成功！');
+                Loader::model('LogRecord')->record('角色管理-添加成功');
                 return info('添加成功！',1);
-                // return $this->result(null,1,'添加成功！');
             }else{
+                Loader::model('LogRecord')->record('角色管理-添加成功 data='.serialize($data));
                 return info('添加失败！',0);
             }
         }
@@ -61,8 +61,10 @@ class Role extends AdminBase
             $data = request()->param();
             $res = $this->role->update($data);
             if($res == 1){
+                Loader::model('LogRecord')->record('角色管理-编辑成功 ID='.$id);
                 return info('修改成功！',1);
             }else{
+                Loader::model('LogRecord')->record('角色管理-编辑失败 ID='.$id);
                 return info('修改失败！',0);
             }
         }
@@ -81,6 +83,7 @@ class Role extends AdminBase
         }
         $result = $this->role->delete($id);
         if ($result > 0) {
+            Loader::model('LogRecord')->record('角色管理-编辑失败 IDS='.serialize($id));
             return info('删除成功！',1);            
         }        
     }
@@ -93,7 +96,7 @@ class Role extends AdminBase
          $role_id = $id;
         // 保存授权
         if(request()->isPost()){
-            $data = array();
+            $data = [];
             $data['id'] = input('post.role_id/d', 0);
             $data['node_id'] = input('post.node_id');
             $this->role->update($data);
@@ -104,7 +107,7 @@ class Role extends AdminBase
         }
         
         // 展示授权页面
-        $menu = array();
+        $menu = [];
         $role = $this->detail($role_id);
         $selectedNode = explode(',', $role['node_id']);
         
@@ -112,27 +115,27 @@ class Role extends AdminBase
 
         $list = $Module->field("id, title, pid, status, module")->order('pid, sort DESC, id')->select();
         foreach($list as $i=>$item){
-            $menu[] = array(
+            $menu[] = [
                 'id' => $item['id'],
                 'parent' => $item['pid'] == 0 ? '#' : $item['pid'],
                 'text' => $item['title'],
                 'state' => array('disabled' => $item['status'] == 0),
-            );
+            ];
         }
         
         $node_list = $Module->query("SELECT id, title, pid, access, 'node' FROM bs_node ORDER BY pid, sort DESC, id");
         foreach($node_list as $i=>$item){
-            $menu[] = array(
+            $menu[] = [
                     'id' => $item['pid'].'_'.$item['id'], // 为了标记我是节点
                     'parent' => $item['pid'],
                     'text' => $item['title'],
                     'state' => array('disabled' => $item['access'] == -1, 'selected' => in_array($item['id'], $selectedNode)),
                     'icon' => ' ',
-                );
+                ];
         }
 
         $menu = json_encode($menu, JSON_UNESCAPED_UNICODE);
-        $this->assign(array('list' => $menu, 'role_id' => $role_id));
+        $this->assign(['list' => $menu, 'role_id' => $role_id]);
         return $this->fetch();
     }
 
@@ -141,7 +144,7 @@ class Role extends AdminBase
         if(is_numeric($id) && $id > 0){
             return $this->role->find($id);
         }
-        return array();
+        return [];
     }
 
 

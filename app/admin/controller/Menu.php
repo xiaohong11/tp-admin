@@ -6,6 +6,7 @@ use think\Db;
 use think\Config;
 use think\Cache;
 use think\View;
+use think\Loader;
 
 
 /**
@@ -20,11 +21,8 @@ class Menu extends AdminBase
     function __construct()
     {
         parent::__construct();
-        // $this->menu = Db::name(Config::get('AUTH_TABLE_MENU'));
         $this->menu = Db::name('bs_menu');
-
         $this->node = 'bs_node';
-        // $this->node = Config::get('AUTH_TABLE_NODE');
     }
 
     private function menu_list($all = true){
@@ -93,8 +91,10 @@ class Menu extends AdminBase
                     Db::name($this->node)->insertAll($nodes);
                     $this->cache();
                 }
+                Loader::model('LogRecord')->record('菜单管理-添加成功');
                 return info('添加成功！',1);
             }
+            Loader::model('LogRecord')->record('菜单管理-添加失败 data='.serialize($data));
             return info('添加失败！',0);
         }       
         $list = $this->menu_list(false);
@@ -120,15 +120,17 @@ class Menu extends AdminBase
             $result = $this->menu->update($data);
             if($result >= 0){
                 $this->cache();
+                Loader::model('LogRecord')->record('菜单管理-编辑成功 ID='.$id);
                 return info('修改成功！',1);
             }
+            Loader::model('LogRecord')->record('菜单管理-编辑失败 ID='.$id);
             return info('修改失败！',0);
         }
         
         $data = $this->menu->where('id',$id)->find();
         $list = $this->menu_list(true);
 
-        $this->assign(array('data' => $data,'list' => $list ));
+        $this->assign(['data' => $data,'list' => $list]);
         return $this->fetch();
     }
 
@@ -145,6 +147,7 @@ class Menu extends AdminBase
             Db::table($this->node)->where("pid IN ({$id})")->delete();
             $this->cache();
         }
+        Loader::model('LogRecord')->record('菜单管理-删除成功 IDS='.serialize($id));
         return info('删除成功！',1);
     }
 
@@ -159,8 +162,7 @@ class Menu extends AdminBase
         $menu = intval($menu);
         if(request()->isPost()){
             $rows = Db::table('bs_node')->where("pid=".$menu)->order("`group`, sort desc, id")->select();
-
-            $data = array( 'total' => count($rows), 'rows' => $rows );
+            $data = [ 'total' => count($rows), 'rows' => $rows ];
             return $data;
         }
         $this->assign('menu_id', $menu);
@@ -175,13 +177,15 @@ class Menu extends AdminBase
             $result = Db::table('bs_node')->insert($data);
             if ($result == 1) {
                 $this->cache();
+                Loader::model('LogRecord')->record('菜单节点管理-添加成功');
                 return info("添加成功！",1);
             }else{
+                Loader::model('LogRecord')->record('菜单节点管理-删除成功 IDS='.serialize($id));
                 return info("添加失败！",0);
             }
         }
 
-        $data = array('pid' => $menu_id);
+        $data = ['pid' => $menu_id];
         $this->assign('data',$data);
         return $this->fetch('editButton');
     }
@@ -198,10 +202,12 @@ class Menu extends AdminBase
             $result = Db::table('bs_node')->update($data);
             if ($result == 1) {
                 $this->cache();
+                Loader::model('LogRecord')->record('菜单节点管理-修改成功');
                 return info("修改成功！",1);
             }else if ($result == 0) {
                 return info("修改成功！",1);
             }else{
+                Loader::model('LogRecord')->record('菜单节点管理-删除成功 ID='.$id);
                 return info("修改失败！",0);
             }
         }
@@ -217,6 +223,7 @@ class Menu extends AdminBase
         }
         $result = Db::table('bs_node')->delete($id);
         if ($result > 0) {
+            Loader::model('LogRecord')->record('菜单节点管理-删除成功 IDS='.serialize($id));
             return info('删除成功！',1);            
         }                
     }
@@ -237,8 +244,9 @@ class Menu extends AdminBase
         $nodeList = $this->nodeList();
         //生成缓存文件
         Cache::set('node',$nodeList,'admin');
-        return info("缓存已更新！",1);
-        // return $this->success('缓存已更新！', '/admin/menu/');
+        // return info("缓存已更新！",1);
+        Loader::model('LogRecord')->record('缓存已更新');
+        return $this->success('缓存已更新！', '/admin/menu/');
     }
 
     /****************************缓存菜单****************************/
