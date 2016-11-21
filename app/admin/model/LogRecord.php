@@ -5,12 +5,16 @@ use \think\Config;
 use \think\Model;
 use \think\Session;
 
-class BackstageLog extends Model
+
+/**
+ * 操作日志记录
+ */
+class logRecord extends Model
 {
     protected $updateTime = false;
     protected $insert     = ['ip', 'user_id'];
     protected $type       = [
-        'create_time' => 'timestamp',
+        'create_time' => 'int',
     ];
 
  
@@ -23,14 +27,12 @@ class BackstageLog extends Model
     protected function setUserIdAttr()
     {
         $user_id = 0;
-
-        if (Session::has(Config::get('USER_AUTH_KEY')) !== false) {
-
-            $user_id = Session::get(Config::get('USER_AUTH_KEY') . '.id');
+        if (Session::has(Config::get('USER_AUTH_KEY'),'admin') !== false) {
+            $user = Session::get(Config::get('USER_AUTH_KEY'),'admin');
+            $user_id = $user['id'];
         }
         return $user_id;
     }
- 
  
     public function record($remark)
     {

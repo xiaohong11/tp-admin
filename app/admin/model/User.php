@@ -6,51 +6,43 @@ use think\Loader;
 use think\Model;
 use think\Session;
 use think\Config;
+use app\common\tools\Strings;
 
 class User extends Model
 {
-
-	
-
-	protected $table = 'users';
-
 	/**
 	 *  用户登录
 	 */
+
+	protected $table = 'users';
+
 	public function login(array $data)
 	{
 		$password = md6($data['password']);
 		$map['mobile'] = $data['mobile'];
- 
-		$userRow = Db::table('users')
-					->where($map)
-					->find();
-		if ($userRow['administrator'] == 1) {
-		}elseif ($userRow['administrator'] == 0) {
-			$exist = Db::table('bs_role_user')->where('user_id',$userRow['id'])->find();
-			if (empty($exist)) {
-				$this->error = '该账号未授权，请联系超级管理。';
-				return false;
-			}
-		} 
-		if( empty($userRow) || $userRow['status'] == 0 || $userRow['password'] != $password ){
+		$userRow = Db::table('users')->where($map)->find();
+
+		$exist = Db::table('bs_role_user')->where('user_id',$userRow['id'])->find();
+		if( empty($userRow) || $userRow['status'] == 0 || $userRow['password'] != $password || ($userRow['administrator'] == 0 && empty($exist)) ){
 			if(empty($userRow)){
 				$this->error = '该手机号未注册！';
 			}elseif($userRow['status'] == 0){
 				$this->error = '该用户已被禁用，请联系管理员！';
 			}elseif($userRow['password'] != $password){
 				$this->error = '密码错误！';
+			}elseif ($userRow['administrator'] == 0 && empty($exist)) {
+				$this->error = '该账号未授权，请联系超级管理。';
 			}
-
 			//登录失败要记录在日志里
-	    	// Loader::model('BackstageLog')->record(" 登录失败, username:[{$data['username']}] password:$password ");
+	    	Loader::model('LogRecord')->record("登录失败, [username_mobile: {$data['mobile']}],[ status: {$this->error} ],[password:" . Strings::replaceToStar($password) . ']');
 	    	return false;
 		}
+
         unset($userRow['password']);
         Session::set(Config::get('USER_AUTH_KEY'), $userRow,'admin');
 
         //登录成功要记录在日志里
-        // Loader::model('BackstageLog')->record('登录');
+        Loader::model('LogRecord')->record('登录成功');
 		return $userRow;	
 	}
 
@@ -75,7 +67,7 @@ class User extends Model
 	}
 
 
-	public function add(array $data)
+	public function add(array $data = [])
 	{	
 		if($data['password2'] != $data['password']){
             return info('两次密码不一致！',0);
@@ -91,7 +83,7 @@ class User extends Model
         }
 	}
 
-	public function edit(array $data)
+	public function edit(array $data = [])
 	{
 		if($data['password2'] != $data['password']){
             return info('两次密码不一致！',0);
