@@ -33,7 +33,6 @@ class User extends Model
 				return false;
 			}
 		} 
-					// var_dump($userRow);die;
 		if( empty($userRow) || $userRow['status'] == 0 || $userRow['password'] != $password ){
 			if(empty($userRow)){
 				$this->error = '该手机号未注册！';
@@ -83,7 +82,6 @@ class User extends Model
         }
 		$data['password'] = md6($data['password']);
 		$data['create_time'] = time();
-		// $data['administrator'] = 1;
 		$user = new User($data); 
 		$res = $user->allowField(true)->save();
 		if($res == 1){
@@ -99,7 +97,6 @@ class User extends Model
             return info('两次密码不一致！',0);
         }
 		$data['password'] = md6($data['password']);
-		// $data['create_time'] = time();
 		$user = new User; 
 		$res = $user->allowField(true)->save($data,['id'=>$data['id']]);
 		if($res == 1){
