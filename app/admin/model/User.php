@@ -77,8 +77,10 @@ class User extends Model
 		$user = new User($data); 
 		$res = $user->allowField(true)->save();
 		if($res == 1){
+			Loader::model('LogRecord')->record('账号管理-添加成功');
             return info('添加成功！',1);
         }else{
+        	Loader::model('LogRecord')->record('账号管理-添加失败 data='.serialize($data));
             return info('添加失败！',0);
         }
 	}
@@ -92,9 +94,11 @@ class User extends Model
 		$user = new User; 
 		$res = $user->allowField(true)->save($data,['id'=>$data['id']]);
 		if($res == 1){
-            return info('修改成功！',1);
+			Loader::model('LogRecord')->record('账号管理-编辑成功');
+            return info('编辑成功！',1);
         }else{
-            return info('修改失败！',0);
+        	Loader::model('LogRecord')->record('账号管理-编辑失败 data='.serialize($data));
+            return info('编辑失败！',0);
         }
 	}
 

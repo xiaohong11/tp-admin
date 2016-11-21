@@ -55,6 +55,7 @@ class Login extends Controller
 	public function out()
 	{
 		Session::delete(config('USER_AUTH_KEY'),'admin');
+		
 		return $this->success('退出成功~');
 	}
     
