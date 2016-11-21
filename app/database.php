@@ -19,6 +19,7 @@ return [
     // 用户名
     'username'       => 'root',
     // 密码
+    // 'password'       => 'root2016', //yun
     'password'       => '',
     // 端口
     'hostport'       => '3306',
