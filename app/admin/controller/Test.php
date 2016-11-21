@@ -24,16 +24,6 @@ class Test extends AdminBase
 		return view();
 	}
 
-	public function toolbar()
-	{
-		// echo "string";die;
-		return $this->fetch();
-	}
-
-	public function tmp()
-	{	
-		abort(404,'页面不存在');
-	}
 }
 
 
