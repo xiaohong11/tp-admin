@@ -50,6 +50,11 @@ function md6($str)
 	return md5(md5($str).$key);
 }
 
+/**
+ * 替换字符串中间位置字符为星号
+ * @param  [type] $str [description]
+ * @return [type] [description]
+ */
 function replaceToStar($str)
 {
     $len = strlen($str) / 2;

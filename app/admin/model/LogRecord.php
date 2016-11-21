@@ -17,23 +17,33 @@ class logRecord extends Model
         'create_time' => 'int',
     ];
 
- 
+    /**
+     * 记录ip地址
+     */
     protected function setIpAttr()
     {
         return \app\common\tools\Visitor::getIP();
     }
 
+    /**
+     * 浏览器把版本
+     */
     protected function setBrowserAttr()
     {
         return \app\common\tools\Visitor::getBrowser().'-'.\app\common\tools\Visitor::getBrowserVer();
     }
 
+    /**
+     * 系统类型
+     */
     protected function setOsAttr()
     {
         return \app\common\tools\Visitor::getOs();
     }
 
- 
+    /**
+     * 用户id
+     */
     protected function setUserIdAttr()
     {
         $user_id = 0;
