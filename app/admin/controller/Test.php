@@ -21,13 +21,14 @@ class Test extends AdminBase
 
 	public function index()
 	{
-		return view();
+
+		return $this->fetch();
 	}
 
 	public function read()
 	{
+
 		echo "string";
-		
 		return view();
 	}
 
