@@ -57,6 +57,9 @@ function md6($str)
  */
 function replaceToStar($str)
 {
-    $len = strlen($str) / 2;
+    $len = strlen($str) / 2; //a0dca4d0****************ba444758]
     return substr_replace($str, str_repeat('*', $len), floor(($len) / 2), $len);
 }
+
+
+

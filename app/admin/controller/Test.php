@@ -24,6 +24,13 @@ class Test extends AdminBase
 		return view();
 	}
 
+	public function read()
+	{
+		echo "string";
+		
+		return view();
+	}
+
 }
 
 
