@@ -25,10 +25,10 @@ class Test extends AdminBase
 		return $this->fetch();
 	}
 
-	public function read()
-	{
+	public function read($id = 0)
+	{	
+		echo $id;die;
 
-		echo "string";
 		return view();
 	}
 

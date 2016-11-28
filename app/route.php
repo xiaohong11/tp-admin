@@ -11,6 +11,7 @@
 
 use think\Route;
 
+
 Route::rule('test/:id','admin/Test/read');
 
 
