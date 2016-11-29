@@ -27,7 +27,6 @@ class Test extends AdminBase
 
 	public function read($id = 0)
 	{	
-		echo $id;die;
 
 		return view();
 	}
