@@ -26,7 +26,7 @@ class AdminBase extends Controller
 		$this->module_name = Request::instance()->module();
 
 		if($this->module_name == "admin"){
-			$this->checkAccess();
+			// $this->checkAccess();
 		}	
 	 	//获取session
 	 	$userId = Session::get(config('USER_AUTH_KEY').'.id','admin');
