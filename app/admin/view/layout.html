@@ -1,39 +1,46 @@
 <!-- head -->
 {include file="./_layout/header" /} 
 <body>
-	<!-- 左侧菜单 -->
-	<div class="sidebar" data-color="purple" data-image="/images/admin/sidebar.jpg">
-		<div class="sidebar-wrapper" >
-			<div class="logo">
-				<a href="/admin/dash" class="simple-text hover-under-no">Red-team</a>
-			</div>
+	<div id="wrapper">
+		<!-- 左侧菜单 -->
+		<nav class="navbar-default navbar-static-side" role="navigation">
 			{include file="./_layout/sidebar" /}
-		</div>
-		<div class="sidebar-background" style="background-image: url(/images/admin/sidebar.jpg);"></div>	
-	</div>
-	<!-- 右侧 -->
-	<div class="main-panel">
-		<!-- 菜单顶部 -->
-		<div class="main-panel-top">
-			{include file="./_layout/top" /}	
-		</div>
-		<!-- 面包屑导航 -->
-		<div class="main-panel-breadcrumb">
-			{include file="./_layout/breadcrumb" /}
-		</div>
-		<!-- 内容 -->
-		<div class="main-panel-content" style="overflow: auto;position: absolute;top: 100px;bottom: 0;right: 0;left: 0;padding: 5px 20px 20px;">
-			{__CONTENT__}
+    	</nav>
+		
+		<!-- 右侧 -->
+		<div id="page-wrapper" class="gray-bg">
+			<!-- 头部 -->
+			<div class="row border-bottom">
+				{include file="./_layout/top" /}
+			</div>
+			<!-- 面包屑导航 -->
+			<div class="row wrapper border-bottom white-bg page-heading">
+				{include file="./_layout/breadcrumb" /}
+			</div>
+			<!-- 内容 -->
+			<div>
+				
+				{__CONTENT__}
+			</div>
+			
+			<!-- 页脚 -->
+			<div>
+				{include file="./_layout/footer" /}
+			</div>
 		</div>
 	</div>
 
-	
+	<!-- necessary ！！！-->
+	{js href="__LIB__/bootstrap3/js/bootstrap.min.js" /}
+	{js href="__JS__/plugins/metisMenu/jquery.metisMenu.js" /}
+	{js href="__JS__/plugins/slimscroll/jquery.slimscroll.min.js" /}
+	{js href="__JS__/bootstrap-table.js" /}
+	{js href="__JS__/main.js" /}
+	{js href="__JS__/gridview.js" /}
+	{js href="__JS__/zh-CN.js" /}
 
+	<!-- custom and plugins -->
+	{js href="__JS__/plugins/pace/pace.min.js" /}
 	
-	{js href="/bootstrap3/js/bootstrap.min.js" /}
-	{js href="/js/admin/bootstrap-table.js" /}
-	{js href="/js/admin/main.js" /}
-	{js href="/js/admin/gridview.js" /}
-	{js href="/js/admin/zh-CN.js" /}
 </body>
 </html>

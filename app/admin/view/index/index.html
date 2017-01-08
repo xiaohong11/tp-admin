@@ -1,72 +1,87 @@
-{__NOLAYOUT__}
-<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>{$Think.config.WEBSITE_NAME}</title>
-	{css href="/bootstrap3/css/bootstrap.css" /}
-	{css href="/css/admin/bootstrap-table.css" /}
-	<!-- {css href="/bootstrap3/css/bootstrap.min.css" /} -->
-	{css href="/font-awesome-4.6/css/font-awesome.min.css" /}
-	<!-- {css href="/css/admin/layout.css" /} -->
-	{js href="/plugins/jquery-3.1.0.min.js" /}
-</head>
-<style>
-body{
-	background-color: purple;
-}
 
-#main{
-	width: 800px;
-	margin: 0 auto;
-	z-index: 1;
-}
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-success pull-right">Total</span>
+                    <h5>Star</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins" id="github-star-count"></h1>
+                    <div class="stat-percent font-bold text-success">100% <i class="fa fa-bolt"></i></div>
+                    <a href="https://github.com/Astonep/tp-admin" target="_blank">
+                        <small>Github</small>
+                    </a>
+                </div>
 
-.background-image{
-	background-image: url('/images/admin/product.png');
-	z-index: 5;
-	position: absolute;
-	height: 60%;
-	width: 60%;
-	display: block;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-	-webkit-background-size: cover;
-	background-size: cover;
-	background-position: center center;
-	background-repeat: no-repeat;
 
-}
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-info pull-right">Annual</span>
+                    <h5>Page view</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins" id="page-view">275,800</h1>
+                    <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                    <small>Page view</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-primary pull-right">Today</span>
+                    <h5>Unique Visitor</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">106,120</h1>
+                    <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
+                    <small>New Visitor</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-primary pull-right">Today</span>
+                    <h5>IP</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">{$data.ip ?? ''}</h1>
+                    <div class="stat-percent font-bold text-navy">38% <i class="fa fa-level-down"></i></div>
+                    <small>In first month</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-.btns{
-	margin: 8% auto 0;
-	width: 100%;
-	text-align: center;
-}
+<script type="text/javascript">
+    $(function () {
+        var data = {}
+        $.ajax({
+            url: 'https://api.github.com/repos/Astonep/tp-admin',
+            type: 'get',
+            data:  '',
+            dataType:  'json',
+            success:function(ajaxData){
+                data.github = ajaxData.stargazers_count
+                console.log(data.github)
+                $("#github-star-count").text(data.github)
+            }
+        })
 
-.btns a{
-	color: #f7f7f8;
-
-}
-a:hover{
-	text-decoration: none;
-}
- 
-
-</style>
-<body>
-
-	<div id="main">
-		<div class="btns">
-		<a href="/admin/login" class="btn btn-primary btn-lg" role="button">Login In</a>
-		</div>
-		<div class="background-image"></div>
-	</div>
-
-</body>
-</html>
+        if (localStorage.pagecount){
+               localStorage.pagecount = Number(localStorage.pagecount)+1
+           }
+           else{
+              localStorage.pagecount = 1
+           }
+           $("#page-view").text(localStorage.pagecount)
+        
+    })
+</script>

@@ -43,7 +43,7 @@ return [
     // 默认时区
     'default_timezone'       => 'PRC',
     // 是否开启多语言
-    'lang_switch_on'         => false,
+    'lang_switch_on'         => true,
     // 默认全局过滤方法 用逗号分隔多个
     'default_filter'         => '',
     // 默认语言
@@ -58,11 +58,11 @@ return [
     // +----------------------------------------------------------------------
 
     // 默认模块名
-    'default_module'         => 'admin',
+    'default_module'         => 'www',
     // 禁止访问模块
     'deny_module_list'       => ['common'],
     //允许访问模块
-    'allow_module_list'      => ['home','admin','index'],
+    'allow_module_list'      => ['www','admin'],
     // 默认控制器名
     'default_controller'     => 'Index',
     // 默认操作名
@@ -133,7 +133,9 @@ return [
     ],
 
     // 视图输出字符串内容替换
-    'view_replace_str'       => [],
+    'view_replace_str'       => [
+        '__STATIC__DOMAIN__'=>STATIC_PATH,
+    ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
@@ -230,4 +232,7 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+
+    //写安装程序的时候随即生成authId
+    'user_auth_key' => 'authId',
 ];

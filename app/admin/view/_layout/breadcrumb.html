@@ -1,31 +1,20 @@
-<!-- -->
-<?php
+<!-- 面包屑导航可有可无
+所以需要有一个判断 可用TP5自己的SWITCH标签进行判断，（需要返回一个name字段）
+对于不需要面包屑导航（dashboard页面）可以先写死
+ -->
 
-
-
-$parents = \app\common\controller\Permission::getParents();
-
-if (!empty($parents)) {
-$html  = "";
-$html .= '<div class="breadcrumbs"><ol class="breadcrumb" split="&gt;">';
-
-$html .= '<li><a href="javascript:void(0)"><i class="fa fa-home" aria-hidden="true"></i> 后台 </a></li>';
-
-$html .= '<li><a href="javascript:void(0)"><i class="fa '. $parents['picon'] .' " aria-hidden="true"></i> '. $parents['ptitle'] .' </a></li>';
-
-
-
-$html .= '<li><a href="javascript:void(0)"><i class="fa '. $parents['icon'] .' " aria-hidden="true"></i> '. $parents['title'] .' </a></li>';
-
-if(!empty($parents['act_title'])){
-	$html .= '<li><a href="javascript:void(0)"><i class="fa '. $parents['act_icon'] .' " aria-hidden="true"></i> '. $parents['act_title'] .' </a></li>';
-}
-$html .= '</ol></div>'; 
-echo $html;
-}
-
-?>
-
-
-		
-	
+<div class="col-lg-10">
+    <ol class="breadcrumb">
+        <li>
+            <a href="index.html">Home</a>
+        </li>
+        <li>
+            <a>Graphs</a>
+        </li>
+        <li class="active">
+            <strong>Flot Charts</strong>
+        </li>
+    </ol>
+</div>
+<div class="col-lg-2">
+</div>

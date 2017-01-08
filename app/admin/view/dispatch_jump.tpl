@@ -3,8 +3,11 @@
 <html lang="zh-CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    {css href="/bootstrap3/css/bootstrap.css" /}
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>跳转提示</title>
+    <meta name="KeyWords" content="{$Think.config.website.keywords}">
+    <meta name="Description" content="{$Think.config.website.description}">
+    {css href="__LIB__/bootstrap3/css/bootstrap.css" /}
     <style type="text/css">
         *{ padding: 0; margin: 0; }
         body{ background: #fff; font-family: "Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif; color: #333; font-size: 16px; }

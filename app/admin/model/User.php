@@ -1,105 +1,134 @@
 <?php
 namespace app\admin\model;
 
+use think\Config;
 use think\Db;
 use think\Loader;
 use think\Model;
-use think\Session;
-use think\Config;
+use traits\model\SoftDelete;
 
-class User extends Model
+class User extends Admin
 {
+	use SoftDelete;
+    protected $deleteTime = 'delete_time';
+
 	/**
 	 *  用户登录
 	 */
-
-	protected $table = 'users';
-
 	public function login(array $data)
 	{
-		$password = md6($data['password']);
-		$map['mobile'] = $data['mobile'];
-		$userRow = Db::table('users')->where($map)->find();
-
-		$exist = Db::table('bs_role_user')->where('user_id',$userRow['id'])->find();
-		if( empty($userRow) || $userRow['status'] == 0 || $userRow['password'] != $password || ($userRow['administrator'] == 0 && empty($exist)) ){
-			if(empty($userRow)){
-				$this->error = '该手机号未注册！';
-			}elseif($userRow['status'] == 0){
-				$this->error = '该用户已被禁用，请联系管理员！';
-			}elseif($userRow['password'] != $password){
-				$this->error = '密码错误！';
-			}elseif ($userRow['administrator'] == 0 && empty($exist)) {
-				$this->error = '该账号未授权，请联系超级管理。';
-			}
-			//登录失败要记录在日志里
-	    	Loader::model('LogRecord')->record("登录失败, [username_mobile: {$data['mobile']}],[ status: {$this->error} ],[password: " .replaceToStar($password) . ']');
-	    	return false;
+		$code = 1;
+		$msg = '';
+		$userValidate = validate('User');
+		if(!$userValidate->scene('login')->check($data)) {
+			return info(lang($userValidate->getError()), 4001);
 		}
-
-        unset($userRow['password']);
-        Session::set(Config::get('USER_AUTH_KEY'), $userRow,'admin');
-
-        //登录成功要记录在日志里
-        Loader::model('LogRecord')->record('登录成功');
-		return $userRow;	
+		if( $code != 1 ) {
+			return info($msg, $code);
+		}
+		$map = [
+			'mobile' => $data['mobile']
+		];
+		$userRow = $this->where($map)->find();
+		if( empty($userRow) ) {
+			return info(lang('You entered the account or password is incorrect, please again'), 5001);
+		}
+		$md_password = mduser( $data['password'] );
+		if( $userRow['password'] != $md_password ) {
+			return info(lang('You entered the account or password is incorrect, please again'), 5001);
+		}
+		return info(lang('Login succeed'), $code, '', $userRow);
 	}
 
-	public function index($data = null)
-	{
-		$join = [['bs_role_user access','u.id = access.user_id','LEFT '],
-				 ['bs_role role','access.role_id = role.id','LEFT']
-				];
-		$data = Db::table('users')
-					->alias('u')
-					->field('u.id,u.username,u.mobile,u.status,u.create_time,
-						GROUP_CONCAT(role.`name`) AS role_name')
-					->join($join)
-					->group('u.id')
-					->order('id desc')
-					->select();
 
-		foreach ($data as $key => $value) {
-			$data[$key]['create_time'] = date('Y-m-d H:i:s',$value['create_time']);
+	public function getList( $request )
+	{
+		$request = $this->fmtRequest( $request );
+		$data = $this->order('create_time desc')->where( $request['map'] )->limit($request['offset'], $request['limit'])->select();
+		return $this->_fmtData( $data );
+	}
+
+	public function saveData( $data )
+	{
+		if( isset( $data['id']) && !empty($data['id'])) {
+			$result = $this->edit( $data );
+		} else {
+			$result = $this->add( $data );
 		}
-		return $data;
+		return $result;
 	}
 
 
 	public function add(array $data = [])
-	{	
+	{
+		$userValidate = validate('User');
+		if(!$userValidate->scene('add')->check($data)) {
+			return info(lang($userValidate->getError()), 4001);
+		}
+		$user = User::get(['mobile' => $data['mobile']]);
+		if (!empty($user)) {
+			return info(lang('Mobile already exists'), 0);
+		}
 		if($data['password2'] != $data['password']){
-            return info('两次密码不一致！',0);
+            return info(lang('The password is not the same twice'), 0);
         }
-		$data['password'] = md6($data['password']);
+		unset($data['password2']);
+		$data['password'] = mduser($data['password']);
 		$data['create_time'] = time();
-		$user = new User($data); 
-		$res = $user->allowField(true)->save();
-		if($res == 1){
-			Loader::model('LogRecord')->record('账号管理-添加成功');
-            return info('添加成功！',1);
+		$this->allowField(true)->save($data);
+		if($this->id > 0){
+            return info(lang('Add succeed'), 1, '', $this->id);
         }else{
-        	Loader::model('LogRecord')->record('账号管理-添加失败 data='.serialize($data));
-            return info('添加失败！',0);
+            return info(lang('Add failed') ,0);
         }
 	}
 
 	public function edit(array $data = [])
 	{
+		$userValidate = validate('User');
+		if(!$userValidate->scene('edit')->check($data)) {
+			return info(lang($userValidate->getError()), 4001);
+		}
+		$moblie = $this->where(['mobile'=>$data['mobile']])->where('id', '<>', $data['id'])->value('mobile');
+		if (!empty($moblie)) {
+			return info(lang('Mobile already exists'), 0);
+		}
+
 		if($data['password2'] != $data['password']){
-            return info('两次密码不一致！',0);
+            return info(lang('The two passwords No match!'),0);
         }
-		$data['password'] = md6($data['password']);
-		$user = new User; 
-		$res = $user->allowField(true)->save($data,['id'=>$data['id']]);
+        $data['update_time'] = time();
+
+		$data['password'] = mduser($data['password']);
+		$res = $this->allowField(true)->save($data,['id'=>$data['id']]);
 		if($res == 1){
-			Loader::model('LogRecord')->record('账号管理-编辑成功');
-            return info('编辑成功！',1);
+            return info(lang('Edit succeed'), 1);
         }else{
-        	Loader::model('LogRecord')->record('账号管理-编辑失败 data='.serialize($data));
-            return info('编辑失败！',0);
+            return info(lang('Edit failed'), 0);
         }
 	}
 
+	public function deleteById($id)
+	{
+		$result = User::destroy($id);
+		if ($result > 0) {
+            return info(lang('Delete succeed'), 1);
+        }   
+	}
+
+	//格式化数据
+	private function _fmtData( $data )
+	{
+		if(empty($data) && is_array($data)) {
+			return $data;
+		}
+
+		foreach ($data as $key => $value) {
+			$data[$key]['create_time'] = date('Y-m-d H:i:s',$value['create_time']);
+			$data[$key]['status'] = $value['status'] == 1 ? lang('Start') : lang('Off');
+		}
+
+		return $data;
+	}
 
 }

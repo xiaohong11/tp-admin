@@ -7,18 +7,21 @@ class User extends Validate
 {
 
     protected $rule =   [
-        'username'              => 'require|length:11',
-        'password'              => 'length:6,20',
+        'mobile'              => 'require|length:11',
+        'password'              => 'length:6,16',
+        'role_id' => 'require',
     ];
 
     protected $message  =   [
-        'username.require'      => '账号必须',
-        'username.length'       => '请输入正确手机号！',
-        'password.length'       => '密码应在6-20之间',
+        'mobile.require'      => 'Mobile require',
+        'mobile.length'       => 'Please enter a correct mobile',
+        'password.length'       => 'Please enter a correct password',
     ];
 
     protected $scene = [
-        'login'                 =>  ['username','password'],
+        'add' => ['mobile','password', 'role_id'],
+        'login' =>  ['mobile','password'],
+        'edit' => ['mobile', 'password', 'role_id']
     ];
 
 }

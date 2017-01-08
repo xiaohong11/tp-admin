@@ -1,5 +1,5 @@
 {__NOLAYOUT__}
-<form data-method="post" data-action="/{$Request.module}/{$Request.controller}/{$Request.action}" data-submit="ajax" data-validate="true" class="form-horizontal">
+<form data-method="post" data-action="{:url('admin/user/saveData')}" data-submit="ajax" data-validate="true" class="form-horizontal">
     <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -22,26 +22,29 @@
                                 <input type="tel" class="form-control mobile" name="mobile" maxlength="11" placeholder="至多11个字符" required value="{$data.mobile ?? ''}"  >
                             </div>
                         </div>
-<!-- 
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">数字</label>
-                            <div class="col-sm-7">
-                                <input type="number" class="form-control digits" name="num" maxlength="20" placeholder="至多20个字符" required>
-                            </div>
-                        </div> -->
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">登录密码</label>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control" name="password" id="password" maxlength="32" placeholder="至多32个字符" required>
+                                <input type="password" class="form-control" name="password" id="password"  rangelength="[6,16]" placeholder="至多16个字符" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">确认密码</label>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control equalto" name="password2" maxlength="32" placeholder="至多32个字符" required data-rule-equalto="#password" data-msg-equalto="密码不一致">
+                                <input type="password" class="form-control equalto" name="password2" rangelength="[6,16]" placeholder="至多16个字符" required data-rule-equalto="#password" data-msg-equalto="密码不一致">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">角色</label>
+                            <div class="col-sm-7">
+                                <select name="role_id" id="" class="form-control" required>
+                                    {volist name="roleData" key="key" id="vo"}
+                                        <option value="{$key}">{$vo}</option>
+                                    {/volist}
+                                </select>
                             </div>
                         </div>
 

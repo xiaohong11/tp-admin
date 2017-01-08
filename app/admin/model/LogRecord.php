@@ -9,7 +9,7 @@ use \think\Session;
 /**
  * 操作日志记录
  */
-class logRecord extends Model
+class logRecord extends Admin
 {
     protected $updateTime = false;
     protected $insert     = ['ip', 'user_id','browser','os'];
@@ -47,8 +47,8 @@ class logRecord extends Model
     protected function setUserIdAttr()
     {
         $user_id = 0;
-        if (Session::has(Config::get('USER_AUTH_KEY'),'admin') !== false) {
-            $user = Session::get(Config::get('USER_AUTH_KEY'),'admin');
+        if (Session::has('userinfo', 'admin') !== false) {
+            $user = Session::get('userinfo','admin');
             $user_id = $user['id'];
         }
         return $user_id;
@@ -57,6 +57,14 @@ class logRecord extends Model
     public function record($remark)
     {
         $this->save(['remark' => $remark]);
+    }
+
+
+    public function UniqueIpCount()
+    {   
+        $data = $this->column('ip');
+        $data = count( array_unique($data) );
+        return $data;
     }
 
 }

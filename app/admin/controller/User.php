@@ -1,25 +1,20 @@
 <?php
 namespace app\admin\controller;
 
-use app\common\controller\AdminBase;
-use think\Session;
-use think\Request;
 use think\Loader;
-use think\Db;
-use think\Config;
+
 
 /**
 * 用户管理
 * @author aierui github  https://github.com/Aierui
 * @version 1.0 
 */
-class User extends AdminBase
+class User extends Admin
 {
-    private $users;
-    function __construct()
+
+    function _initialize()
     {
-        parent::__construct();
-        $this->users = Db::table('users');
+        parent::_initialize();
     }
 
     /**
@@ -27,29 +22,33 @@ class User extends AdminBase
      */
     public function index()
     {
-        if(request()->isAjax()){
-
-            $data = request()->param();
-            
-            $userModel = Loader::model('User');
-            $index = $userModel->index($data);
-            return $index;
-        }
         return view();
+    }
+
+    /**
+     * 异步获取列表数据
+     *
+     * @author chengbin
+     * @return mixed
+     */
+    public function getList()
+    {
+        if(!request()->isAjax()) {
+            $this->error(lang('Request type error'), 4001);
+        }
+
+        $request = request()->param();
+        $data = model('User')->getList( $request );
+        return $data;
     }
 
     /**
      * 添加
      */
     public function add()
-    {   
-        if( request()->isPost() ){
-            $data = request()->param();
-            
-            $userModel = Loader::model('User');
-            $add = $userModel->add($data);
-            return $add;
-        }
+    {
+        $roleData = model('role')->getKvData();
+        $this->assign('roleData', $roleData);
         return $this->fetch('edit');
     }
 
@@ -58,20 +57,32 @@ class User extends AdminBase
      * @param  string $id 数据ID（主键）
      */
     public function edit($id = 0)
-    {
-        $data = request()->param();
-        $id = intval($data['id']);
-        if(empty($id)){
-            return info('数据ID异常',0);
+    {   
+        if(intval($id) < 0){
+            return info(lang('Data ID exception'), 0);
         }
-        if(request()->isPost()){
-            $userModel = Loader::model('User');
-            $edit = $userModel->edit($data);
-            return $edit;
-        }
-        $data = $this->users->where('id',$id)->find();
+        $roleData = model('role')->getKvData();
+        $this->assign('roleData', $roleData);
+        $data = model('User')->get(['id'=>$id]);
         $this->assign('data',$data);
         return $this->fetch();
+    }
+
+    /**
+     * 保存数据
+     * @param array $data
+     *
+     * @author chengbin
+     */
+    public function saveData()
+    {
+        $this->mustCheckRule( 'admin/user/edit' );
+        if(!request()->isAjax()) {
+            return info(lang('Request type error'));
+        }
+
+        $data = input('post.');
+        return model('User')->saveData( $data );
     }
 
     /**
@@ -80,63 +91,10 @@ class User extends AdminBase
      */
     public function delete($id = 0){
         if(empty($id)){
-            return info('删除项不能为空！',0);
+            return info(lang('Data ID exception'), 0);
         }
-        $result = $this->users->delete($id);
-        if ($result > 0) {
-            return info('删除成功！',1);            
-        }        
+        return Loader::model('User')->deleteById($id);
     }
 
-    /**
-     * 用户授权
-     * @param  string $id 
-     */
-    public function auth($id = 0)
-    {
-        $data['id'] = $id;
-        if(request()->isPost()){
-            $data = request()->param();
-            $user_id = $data['id'];
-            $roles = $data['role'];
-            $total = count($roles);
-            Db::table('bs_role_user')->where('user_id',$user_id)->delete();
-            for ($i=0; $i <$total ; $i++) { 
-                $row['role_id'] = $roles[$i];
-                $row['user_id'] = $user_id;
-                Db::table('bs_role_user')->insert($row);
-            }
-            return info('授权成功！',1);    
-        }
-        $list = Db::table('bs_role')->order('id')->select();
-        $this->assign('data',$data);
-        $this->assign('list',$list);
-        return $this->fetch();
-    }
-
-    /**
-     * 修改密码
-     * @param  string $id 
-     */
-    public function password($id = 0)
-    {
-        if(request()->isPost()){
-            $data = request()->param();
-
-            $userModel = Loader::model('User');
-            $edit = $userModel->edit($data);
-            return $edit;
-        }
-        $this->assign('data',$id);
-        return $this->fetch();
-    }
-
-    /**
-     * 账户详情
-     */
-    public function detail()
-    {
-        $user = Session::get(Config::get('USER_AUTH_KEY'),'admin');
-        return $this->fetch();
-    }
+   
 }
