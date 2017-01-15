@@ -1,7 +1,3 @@
-> 开始写文档啦！！！！！！！！！！！
-
-
-=====================
 
 > 新版本在线体验地址已经上线👏 ---2017-01-10
 
@@ -21,10 +17,10 @@
 
 TP-admin即基于ThinkPHP5拿来即用高性能后台管理系统
 
-- 0.1.0  [查看](https://github.com/Aierui/tp-admin/tree/0.1.0)
+- 0.1.0  [查看](https://github.com/Aierui/tp-admin/tree/0.1.0) 提供源代码，文档已废弃
 
-## 官方文档(旧) 新正在写……
-地址：[http://doc.web.shijinrong.cn/](http://doc.web.shijinrong.cn/)
+## 官方文档
+地址：[http://doc.tpadmin.shijinrong.cn/](http://doc.tpadmin.shijinrong.cn/)
 
 ## 在线体验
 
